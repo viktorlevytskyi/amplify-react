@@ -12,6 +12,24 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization(allow => [allow.owner()]),
+  Article: a
+    .model({
+      id: a.id().required(),
+      text: a.string().required(),
+      accentPos: a.string(),
+      word: a.string().required(),
+    })
+    .identifier(['word', 'id'])
+    .authorization(allow => [allow.authenticated()]),
+  Translation: a
+    .model({
+      wordPattern: a.string().required(),
+      word: a.string().required(),
+      dict: a.string(),
+      shorteningPos: a.integer(),
+    })
+    .identifier(['wordPattern', 'word'])
+    .authorization(allow => [allow.authenticated()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
